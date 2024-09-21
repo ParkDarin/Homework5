@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Global Capture Fisheries Production in 2020 (Metric Tons)",
-  "width": 800,
+  "width": 900,
   "height": 400,
   "data": {
     "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/ne_110m_admin_0_countries.topojson",
@@ -26,7 +26,7 @@
         "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/oceans.json",
         "format": {"type": "topojson", "feature": "oceans"}
       },
-      "mark": {"type": "geoshape", "fill": "#87CEEB"}
+      "mark": {"type": "geoshape", "fill": "#cfe2f3"}
     },
     {
       "data": {
