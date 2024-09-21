@@ -13,16 +13,41 @@
         const spec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Global Capture Fisheries Production in 2020 (Metric Tons)",
-            "width": 950,
+            "width": 800,
             "height": 400,
+            "data": {
+                "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/ne_110m_admin_0_countries.topojson",
+                "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+            },
             "projection": { "type": "equalEarth" },
             "layer": [
-                { "mark": { "type": "geoshape", "fill": "#cfe2f3" }, "data": { "sphere": true } },
+                {
+                    "transform": [
+                        {
+                            "calculate": "'No data available for ' + datum.properties.NAME",
+                            "as": "note"
+                        }
+                    ],
+                    "mark": { "type": "geoshape", "fill": "lightgray", "stroke": "white" },
+                    "encoding": {
+                        "tooltip": { "field": "note" }
+                    }
+                },
                 {
                     "data": {
-                        "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/ne_110m.json",
-                        "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+                        "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/oceans.json",
+                        "format": { "type": "topojson", "feature": "oceans" }
                     },
+                    "mark": { "type": "geoshape", "fill": "#87CEEB" }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/WorldMapWithGraticules.json",
+                        "format": { "type": "topojson", "feature": "ne_110m_graticules_30" }
+                    },
+                    "mark": { "type": "geoshape", "fill": null, "stroke": "lightgray" }
+                },
+                {
                     "transform": [
                         {
                             "lookup": "properties.NAME",
@@ -34,53 +59,24 @@
                                 "key": "Entity",
                                 "fields": ["Capture fisheries production (metric tons)"]
                             }
-                        },
-                        {
-                            "calculate": "isValid(datum['Capture fisheries production (metric tons)']) ? datum['Capture fisheries production (metric tons)'] : 0",
-                            "as": "Capture fisheries production (metric tons)"
                         }
                     ],
-                    "mark": { "type": "geoshape" },
+                    "mark": { "type": "geoshape", "stroke": "white" },
                     "encoding": {
                         "color": {
                             "field": "Capture fisheries production (metric tons)",
                             "type": "quantitative",
-                            "title": "Fisheries Production (tons)",
                             "scale": {
                                 "type": "threshold",
                                 "domain": [100000, 500000, 1000000, 1500000, 2000000],
                                 "range": ["#f7d9c4", "#f4a582", "#d6604d", "#b2182b", "#67001f"]
-                            },
-                            "legend": { "orient": "left", "offset": -40 }
+                            }
                         },
                         "tooltip": [
                             { "field": "properties.NAME", "type": "nominal", "title": "Country" },
-                            {
-                                "field": "Capture fisheries production (metric tons)",
-                                "type": "quantitative",
-                                "title": "Capture fisheries production (metric tons)"
-                            }
+                            { "field": "Capture fisheries production (metric tons)", "type": "quantitative" }
                         ]
                     }
-                },
-                {
-                    "data": {
-                        "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/ne_110m.json",
-                        "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
-                    },
-                    "mark": {
-                        "type": "geoshape",
-                        "fill": null,
-                        "stroke": "black",
-                        "strokeWidth": 0.5
-                    }
-                },
-                {
-                    "data": {
-                        "url": "https://raw.githubusercontent.com/ParkDarin/Homework9/refs/heads/main/js/ne_110m.json",
-                        "format": { "type": "topojson", "feature": "ne_110m_graticules_30" }
-                    },
-                    "mark": { "type": "geoshape", "fill": null, "stroke": "lightgray" }
                 }
             ],
             "config": {}
